@@ -1,0 +1,75 @@
+{
+  "name": "@entrolytics/astro-sdk",
+  "version": "2.0.0",
+  "description": "Astro integration for Entrolytics with Web Vitals and Form tracking",
+  "keywords": [
+    "entrolytics",
+    "analytics",
+    "astro",
+    "astro-integration",
+    "web-analytics",
+    "tracking",
+    "web-vitals",
+    "form-analytics"
+  ],
+  "author": "Entrolytics <hey@ng.entrolytics.click>",
+  "license": "MIT",
+  "homepage": "https://ng.entrolytics.click",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/entrolytics/astro-sdk",
+    "directory": "entro-astro"
+  },
+  "bugs": {
+    "url": "https://github.com/entrolytics/astro-sdk/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=24.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "lint": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.8",
+    "astro": "^5.16.4",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "astro": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "web-vitals": {
+      "optional": true
+    }
+  },
+  "optionalDependencies": {
+    "web-vitals": "^5.1.0"
+  }
+}
