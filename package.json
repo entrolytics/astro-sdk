@@ -1,7 +1,7 @@
 {
   "name": "@entrolytics/astro-sdk",
   "version": "2.0.0",
-  "description": "Astro integration for Entrolytics with Web Vitals and Form tracking",
+  "description": "Astro SDK for Entrolytics - First-party growth analytics for the edge",
   "keywords": [
     "entrolytics",
     "analytics",
