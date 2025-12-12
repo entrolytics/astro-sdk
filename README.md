@@ -1,21 +1,89 @@
-# @entrolytics/astro
+<div align="center">
+  <img src="https://raw.githubusercontent.com/entrolytics/.github/main/media/entrov2.png" alt="Entrolytics" width="64" height="64">
 
-Astro SDK for [Entrolytics](https://ng.entrolytics.click) - First-party growth analytics for the edge.
+  [![npm](https://img.shields.io/npm/v/@entrolytics/astro-sdk.svg?logo=npm)](https://www.npmjs.com/package/@entrolytics/astro-sdk)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Astro](https://img.shields.io/badge/Astro-5+-BC52EE.svg?logo=astro&logoColor=white)](https://astro.build/)
+
+</div>
+
+---
+
+## Overview
+
+**@entrolytics/astro-sdk** is the official Astro SDK for Entrolytics - first-party growth analytics for the edge. Add analytics to your Astro sites with a single integration.
+
+**Why use this SDK?**
+- Zero-config Astro integration - just add to `astro.config.mjs`
+- Automatic View Transitions support
+- Outbound link and file download tracking
+- Edge-optimized with sub-50ms response times globally
+
+## Key Features
+
+<table>
+<tr>
+<td width="50%">
+
+### Analytics
+- Automatic page view tracking
+- Outbound link tracking
+- File download tracking
+- Cross-domain tracking
+
+</td>
+<td width="50%">
+
+### Developer Experience
+- Astro integration plugin
+- Client module for manual tracking
+- View Transitions aware
+- Full TypeScript support
+
+</td>
+</tr>
+</table>
+
+## Quick Start
+
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://api.iconify.design/lucide:download.svg?color=%236366f1" width="48"><br>
+<strong>1. Install</strong><br>
+<code>npm i @entrolytics/astro-sdk</code>
+</td>
+<td align="center" width="25%">
+<img src="https://api.iconify.design/lucide:code.svg?color=%236366f1" width="48"><br>
+<strong>2. Add Integration</strong><br>
+<code>integrations: [entrolytics()]</code>
+</td>
+<td align="center" width="25%">
+<img src="https://api.iconify.design/lucide:settings.svg?color=%236366f1" width="48"><br>
+<strong>3. Configure</strong><br>
+Set Website ID in <code>.env</code>
+</td>
+<td align="center" width="25%">
+<img src="https://api.iconify.design/lucide:bar-chart-3.svg?color=%236366f1" width="48"><br>
+<strong>4. Track</strong><br>
+View analytics in dashboard
+</td>
+</tr>
+</table>
 
 ## Installation
 
 ```bash
-npm install @entrolytics/astro
+npm install @entrolytics/astro-sdk
 # or
-pnpm add @entrolytics/astro
+pnpm add @entrolytics/astro-sdk
 ```
-
-## Quick Start
 
 ```ts
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
-import entrolytics from '@entrolytics/astro';
+import entrolytics from '@entrolytics/astro-sdk';
 
 export default defineConfig({
   integrations: [
