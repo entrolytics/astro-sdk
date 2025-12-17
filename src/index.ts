@@ -161,9 +161,7 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const env = (import.meta as any).env || {};
   const websiteId =
-    options.websiteId ||
-    env.PUBLIC_ENTROLYTICS_NG_WEBSITE_ID ||
-    env.VITE_ENTROLYTICS_NG_WEBSITE_ID;
+    options.websiteId || env.PUBLIC_ENTROLYTICS_NG_WEBSITE_ID || env.VITE_ENTROLYTICS_NG_WEBSITE_ID;
 
   const host =
     options.host || env.PUBLIC_ENTROLYTICS_HOST || env.VITE_ENTROLYTICS_HOST || DEFAULT_HOST;

@@ -248,55 +248,65 @@ export async function initWebVitals(): Promise<void> {
   try {
     const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import('web-vitals');
 
-    onLCP((m) => trackVital({
-      metric: 'LCP',
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-      navigationType: m.navigationType as NavigationType,
-      attribution: m.attribution as Record<string, unknown>,
-    }));
+    onLCP(m =>
+      trackVital({
+        metric: 'LCP',
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+        navigationType: m.navigationType as NavigationType,
+        attribution: m.attribution as Record<string, unknown>,
+      }),
+    );
 
-    onINP((m) => trackVital({
-      metric: 'INP',
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-      navigationType: m.navigationType as NavigationType,
-      attribution: m.attribution as Record<string, unknown>,
-    }));
+    onINP(m =>
+      trackVital({
+        metric: 'INP',
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+        navigationType: m.navigationType as NavigationType,
+        attribution: m.attribution as Record<string, unknown>,
+      }),
+    );
 
-    onCLS((m) => trackVital({
-      metric: 'CLS',
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-      navigationType: m.navigationType as NavigationType,
-      attribution: m.attribution as Record<string, unknown>,
-    }));
+    onCLS(m =>
+      trackVital({
+        metric: 'CLS',
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+        navigationType: m.navigationType as NavigationType,
+        attribution: m.attribution as Record<string, unknown>,
+      }),
+    );
 
-    onFCP((m) => trackVital({
-      metric: 'FCP',
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-      navigationType: m.navigationType as NavigationType,
-      attribution: m.attribution as Record<string, unknown>,
-    }));
+    onFCP(m =>
+      trackVital({
+        metric: 'FCP',
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+        navigationType: m.navigationType as NavigationType,
+        attribution: m.attribution as Record<string, unknown>,
+      }),
+    );
 
-    onTTFB((m) => trackVital({
-      metric: 'TTFB',
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-      navigationType: m.navigationType as NavigationType,
-      attribution: m.attribution as Record<string, unknown>,
-    }));
+    onTTFB(m =>
+      trackVital({
+        metric: 'TTFB',
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+        navigationType: m.navigationType as NavigationType,
+        attribution: m.attribution as Record<string, unknown>,
+      }),
+    );
   } catch {
     console.debug('[Entrolytics] web-vitals not installed. Use trackVital() for manual tracking.');
   }
@@ -408,7 +418,12 @@ export function createFormTracker(formId: string, formName?: string) {
       });
     },
 
-    trackFieldError: (fieldName: string, errorMessage: string, fieldType?: string, fieldIndex?: number) => {
+    trackFieldError: (
+      fieldName: string,
+      errorMessage: string,
+      fieldType?: string,
+      fieldIndex?: number,
+    ) => {
       trackFormEvent({
         eventType: 'field_error',
         formId,
