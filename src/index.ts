@@ -1,6 +1,6 @@
 import type { AstroIntegration } from 'astro';
 
-const DEFAULT_HOST = 'https://ng.entrolytics.click';
+const DEFAULT_HOST = 'https://entrolytics.click';
 
 export interface EntrolyticsOptions {
   /**
@@ -10,7 +10,7 @@ export interface EntrolyticsOptions {
 
   /**
    * Entrolytics host URL (for self-hosted instances)
-   * @default 'https://ng.entrolytics.click'
+   * @default 'https://entrolytics.click'
    */
   host?: string;
 
@@ -161,7 +161,7 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const env = (import.meta as any).env || {};
   const websiteId =
-    options.websiteId || env.PUBLIC_ENTROLYTICS_NG_WEBSITE_ID || env.VITE_ENTROLYTICS_NG_WEBSITE_ID;
+    options.websiteId || env.PUBLIC_ENTROLYTICS_WEBSITE_ID || env.VITE_ENTROLYTICS_WEBSITE_ID;
 
   const host =
     options.host || env.PUBLIC_ENTROLYTICS_HOST || env.VITE_ENTROLYTICS_HOST || DEFAULT_HOST;
@@ -169,7 +169,7 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
   if (!websiteId) {
     if (env.DEV) {
       console.warn(
-        '[@entrolytics/astro] Missing websiteId. Add PUBLIC_ENTROLYTICS_NG_WEBSITE_ID to your .env file.',
+        '[@entrolytics/astro] Missing websiteId. Add PUBLIC_ENTROLYTICS_WEBSITE_ID to your .env file.',
       );
     }
     throw new Error('[@entrolytics/astro] websiteId is required');

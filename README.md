@@ -95,8 +95,8 @@ export default defineConfig({
 Add to your `.env` file:
 
 ```bash
-PUBLIC_ENTROLYTICS_NG_WEBSITE_ID=your-website-id
-PUBLIC_ENTROLYTICS_HOST=https://ng.entrolytics.click
+PUBLIC_ENTROLYTICS_WEBSITE_ID=your-website-id
+PUBLIC_ENTROLYTICS_HOST=https://entrolytics.click
 ```
 
 That's it! The integration automatically injects the tracking script and handles View Transitions.
@@ -106,7 +106,7 @@ That's it! The integration automatically injects the tracking script and handles
 ### Zero-Config (Recommended)
 
 ```ts
-integrations: [entrolytics()] // Reads from PUBLIC_ENTROLYTICS_NG_WEBSITE_ID
+integrations: [entrolytics()] // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
 ```
 
 ### Explicit Configuration
@@ -117,7 +117,7 @@ entrolytics({
   websiteId: 'your-website-id',
 
   // Optional: Custom host (for self-hosted instances)
-  host: 'https://ng.entrolytics.click',
+  host: 'https://entrolytics.click',
 
   // Optional: Auto-track page views (default: true)
   autoTrack: true,
@@ -191,7 +191,7 @@ entrolytics({
 - Self-hosted Astro deployments without edge support
 - Advanced analytics workflows
 
-See the [Routing documentation](https://ng.entrolytics.click/docs/concepts/routing) for more details.
+See the [Routing documentation](https://entrolytics.click/docs/concepts/routing) for more details.
 
 ## Manual Event Tracking
 
