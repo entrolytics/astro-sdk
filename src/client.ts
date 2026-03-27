@@ -1,3 +1,6 @@
+import { API_ROUTES } from '@entrolytics/shared';
+import type { FormEventType, NavigationType, VitalRating, VitalType } from '@entrolytics/shared';
+
 /**
  * Client-side tracking functions for Astro components
  *
@@ -21,15 +24,9 @@ export interface EventData {
 // PHASE 2: Web Vitals Types
 // ============================================================================
 
-export type WebVitalMetric = 'LCP' | 'INP' | 'CLS' | 'TTFB' | 'FCP';
-export type WebVitalRating = 'good' | 'needs-improvement' | 'poor';
-export type NavigationType =
-  | 'navigate'
-  | 'reload'
-  | 'back-forward'
-  | 'back-forward-cache'
-  | 'prerender'
-  | 'restore';
+export type WebVitalMetric = VitalType;
+export type WebVitalRating = VitalRating;
+export type { NavigationType };
 
 export interface WebVitalData {
   metric: WebVitalMetric;
@@ -45,13 +42,7 @@ export interface WebVitalData {
 // PHASE 2: Form Tracking Types
 // ============================================================================
 
-export type FormEventType =
-  | 'start'
-  | 'field_focus'
-  | 'field_blur'
-  | 'field_error'
-  | 'submit'
-  | 'abandon';
+export type { FormEventType };
 
 export interface FormEventData {
   eventType: FormEventType;
@@ -206,9 +197,9 @@ export async function trackVital(data: WebVitalData): Promise<void> {
   }
 
   const payload = {
-    website: config.websiteId,
-    metric: data.metric,
-    value: data.value,
+    websiteId: config.websiteId,
+    metricName: data.metric,
+    metricValue: data.value,
     rating: data.rating,
     delta: data.delta,
     id: data.id,
@@ -219,7 +210,7 @@ export async function trackVital(data: WebVitalData): Promise<void> {
   };
 
   try {
-    await fetch(`${config.host}/api/collect/vitals`, {
+    await fetch(`${config.host}${API_ROUTES.collectVitals}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -228,6 +219,10 @@ export async function trackVital(data: WebVitalData): Promise<void> {
   } catch (err) {
     console.error('[Entrolytics] Failed to track vital:', err);
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -246,7 +241,7 @@ export async function initWebVitals(): Promise<void> {
   if (typeof window === 'undefined') return;
 
   try {
-    const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import('web-vitals');
+    const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import('web-vitals/attribution');
 
     onLCP(m =>
       trackVital({
@@ -256,7 +251,7 @@ export async function initWebVitals(): Promise<void> {
         delta: m.delta,
         id: m.id,
         navigationType: m.navigationType as NavigationType,
-        attribution: m.attribution as Record<string, unknown>,
+        attribution: isRecord(m.attribution) ? m.attribution : undefined,
       }),
     );
 
@@ -268,7 +263,7 @@ export async function initWebVitals(): Promise<void> {
         delta: m.delta,
         id: m.id,
         navigationType: m.navigationType as NavigationType,
-        attribution: m.attribution as Record<string, unknown>,
+        attribution: isRecord(m.attribution) ? m.attribution : undefined,
       }),
     );
 
@@ -280,7 +275,7 @@ export async function initWebVitals(): Promise<void> {
         delta: m.delta,
         id: m.id,
         navigationType: m.navigationType as NavigationType,
-        attribution: m.attribution as Record<string, unknown>,
+        attribution: isRecord(m.attribution) ? m.attribution : undefined,
       }),
     );
 
@@ -292,7 +287,7 @@ export async function initWebVitals(): Promise<void> {
         delta: m.delta,
         id: m.id,
         navigationType: m.navigationType as NavigationType,
-        attribution: m.attribution as Record<string, unknown>,
+        attribution: isRecord(m.attribution) ? m.attribution : undefined,
       }),
     );
 
@@ -304,7 +299,7 @@ export async function initWebVitals(): Promise<void> {
         delta: m.delta,
         id: m.id,
         navigationType: m.navigationType as NavigationType,
-        attribution: m.attribution as Record<string, unknown>,
+        attribution: isRecord(m.attribution) ? m.attribution : undefined,
       }),
     );
   } catch {
@@ -340,7 +335,7 @@ export async function trackFormEvent(data: FormEventData): Promise<void> {
   }
 
   const payload = {
-    website: config.websiteId,
+    websiteId: config.websiteId,
     eventType: data.eventType,
     formId: data.formId,
     formName: data.formName,
@@ -355,7 +350,7 @@ export async function trackFormEvent(data: FormEventData): Promise<void> {
   };
 
   try {
-    await fetch(`${config.host}/api/collect/forms`, {
+    await fetch(`${config.host}${API_ROUTES.collectForms}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -384,16 +379,16 @@ export function createFormTracker(formId: string, formName?: string) {
   return {
     trackStart: () => {
       startTime = Date.now();
-      trackFormEvent({ eventType: 'start', formId, formName });
+      void trackFormEvent({ eventType: 'start', formId, formName });
     },
 
     trackFieldFocus: (fieldName: string, fieldType?: string, fieldIndex?: number) => {
       if (!startTime) {
         startTime = Date.now();
-        trackFormEvent({ eventType: 'start', formId, formName });
+        void trackFormEvent({ eventType: 'start', formId, formName });
       }
       fieldStartTimes.set(fieldName, Date.now());
-      trackFormEvent({
+      void trackFormEvent({
         eventType: 'field_focus',
         formId,
         formName,
@@ -406,7 +401,7 @@ export function createFormTracker(formId: string, formName?: string) {
 
     trackFieldBlur: (fieldName: string, fieldType?: string, fieldIndex?: number) => {
       const fieldStart = fieldStartTimes.get(fieldName);
-      trackFormEvent({
+      void trackFormEvent({
         eventType: 'field_blur',
         formId,
         formName,
@@ -424,7 +419,7 @@ export function createFormTracker(formId: string, formName?: string) {
       fieldType?: string,
       fieldIndex?: number,
     ) => {
-      trackFormEvent({
+      void trackFormEvent({
         eventType: 'field_error',
         formId,
         formName,
@@ -437,7 +432,7 @@ export function createFormTracker(formId: string, formName?: string) {
     },
 
     trackSubmit: (success: boolean) => {
-      trackFormEvent({
+      void trackFormEvent({
         eventType: 'submit',
         formId,
         formName,
@@ -449,7 +444,7 @@ export function createFormTracker(formId: string, formName?: string) {
     },
 
     trackAbandon: () => {
-      trackFormEvent({
+      void trackFormEvent({
         eventType: 'abandon',
         formId,
         formName,

@@ -1,29 +1,35 @@
 {
   "name": "@entrolytics/astro-sdk",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Astro SDK for Entrolytics - First-party growth analytics for the edge",
   "keywords": [
-    "entrolytics",
     "analytics",
     "astro",
     "astro-integration",
-    "web-analytics",
+    "entrolytics",
+    "form-analytics",
     "tracking",
-    "web-vitals",
-    "form-analytics"
+    "web-analytics",
+    "web-vitals"
   ],
-  "author": "Entrolytics <hey@entrolytics.click>",
-  "license": "MIT",
   "homepage": "https://entrolytics.click",
+  "bugs": {
+    "url": "https://github.com/entrolytics/astro-sdk/issues"
+  },
+  "license": "MIT",
+  "author": "Entrolytics <hey@entrolytics.click>",
   "repository": {
     "type": "git",
     "url": "https://github.com/entrolytics/astro-sdk",
     "directory": "entro-astro"
   },
-  "bugs": {
-    "url": "https://github.com/entrolytics/astro-sdk/issues"
-  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -36,33 +42,30 @@
       "types": "./dist/client.d.ts"
     }
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "sideEffects": false,
-  "engines": {
-    "node": ">=22.x"
-  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
-    "lint": "biome check --write .",
-    "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm build"
+    "build": "vp pack",
+    "check": "vp check",
+    "dev": "vp pack --watch",
+    "format": "vp fmt --write .",
+    "lint": "vp lint --fix . && vp fmt --write .",
+    "lint:check": "vp lint . && vp fmt --check .",
+    "lint:fix-unsafe": "vp lint -f stylish --import-plugin --type-aware --type-check --fix --fix-suggestions --fix-dangerously src/",
+    "prepublishOnly": "vp run build",
+    "typecheck": "tsgo --noEmit"
+  },
+  "dependencies": {
+    "@entrolytics/shared": "^2.4.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.11",
-    "astro": "^5.16.6",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "astro": "^6.1.1",
+    "typescript": "^6.0.2",
+    "vite-plus": "latest"
   },
   "peerDependencies": {
-    "astro": ">=5.0.0"
+    "astro": ">=5.17.2"
   },
   "peerDependenciesMeta": {
     "web-vitals": {
@@ -70,6 +73,16 @@
     }
   },
   "optionalDependencies": {
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=24.x"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "overrides": {
+      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+    }
   }
 }

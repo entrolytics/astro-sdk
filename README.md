@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/entrolytics/.github/main/media/entrov2.png" alt="Entrolytics" width="64" height="64">
+- <img src="https://raw.githubusercontent.com/entrolytics/.github/main/media/entrov2.png" alt="Entrolytics" width="64" height="64">
 
-  [![npm](https://img.shields.io/npm/v/@entrolytics/astro-sdk.svg?logo=npm)](https://www.npmjs.com/package/@entrolytics/astro-sdk)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Astro](https://img.shields.io/badge/Astro-5+-BC52EE.svg?logo=astro&logoColor=white)](https://astro.build/)
+[![npm](https://img.shields.io/npm/v/@entrolytics/astro-sdk.svg?logo=npm)](https://www.npmjs.com/package/@entrolytics/astro-sdk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg?logo=typescript\&logoColor=white)](https://www.typescriptlang.org/)
+[![Astro](https://img.shields.io/badge/Astro-5+-BC52EE.svg?logo=astro\&logoColor=white)](https://astro.build/)
 
 </div>
 
@@ -15,6 +15,7 @@
 **@entrolytics/astro-sdk** is the official Astro SDK for Entrolytics - first-party growth analytics for the edge. Add analytics to your Astro sites with a single integration.
 
 **Why use this SDK?**
+
 - Zero-config Astro integration - just add to `astro.config.mjs`
 - Automatic View Transitions support
 - Outbound link and file download tracking
@@ -27,6 +28,7 @@
 <td width="50%">
 
 ### Analytics
+
 - Automatic page view tracking
 - Outbound link tracking
 - File download tracking
@@ -36,6 +38,7 @@
 <td width="50%">
 
 ### Developer Experience
+
 - Astro integration plugin
 - Client module for manual tracking
 - View Transitions aware
@@ -76,7 +79,9 @@ View analytics in dashboard
 
 ```bash
 npm install @entrolytics/astro-sdk
+
 # or
+
 pnpm add @entrolytics/astro-sdk
 ```
 
@@ -106,7 +111,7 @@ That's it! The integration automatically injects the tracking script and handles
 ### Zero-Config (Recommended)
 
 ```ts
-integrations: [entrolytics()] // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
+integrations: [entrolytics()]; // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
 ```
 
 ### Explicit Configuration
@@ -152,11 +157,13 @@ entrolytics({
 ```
 
 **Benefits:**
+
 - Sub-50ms response times globally
 - Optimal for high-traffic sites
 - Best user experience
 
 **Limitations:**
+
 - Basic geo data (country-level)
 - No ClickHouse export
 
@@ -172,6 +179,7 @@ entrolytics({
 ```
 
 **Benefits:**
+
 - ClickHouse data export support
 - MaxMind GeoIP (city-level accuracy)
 - Advanced analytics features
@@ -181,11 +189,13 @@ entrolytics({
 ### When to Use Each Runtime
 
 **Use Edge Runtime (default) when:**
+
 - You prioritize speed (<50ms response times)
 - You have high request volume
 - Country-level geo data is sufficient
 
 **Use Node.js Runtime when:**
+
 - You need ClickHouse export for data warehousing
 - You require city-level geo accuracy
 - Self-hosted Astro deployments without edge support

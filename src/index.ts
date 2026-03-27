@@ -129,6 +129,10 @@ function generateScriptTag(options: EntrolyticsOptions): string {
   return `<script ${attributes.join(' ')}></script>`;
 }
 
+function readEnvString(value: unknown): string | undefined {
+  return typeof value === 'string' && value.length > 0 ? value : undefined;
+}
+
 /**
  * Astro integration for Entrolytics analytics
  *
@@ -158,13 +162,22 @@ function generateScriptTag(options: EntrolyticsOptions): string {
  */
 export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): AstroIntegration {
   // Auto-read from environment variables
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const env = (import.meta as any).env || {};
+  const env =
+    (
+      import.meta as ImportMeta & {
+        env?: Record<string, string | boolean | undefined>;
+      }
+    ).env ?? {};
   const websiteId =
-    options.websiteId || env.PUBLIC_ENTROLYTICS_WEBSITE_ID || env.VITE_ENTROLYTICS_WEBSITE_ID;
+    options.websiteId ??
+    readEnvString(env.PUBLIC_ENTROLYTICS_WEBSITE_ID) ??
+    readEnvString(env.VITE_ENTROLYTICS_WEBSITE_ID);
 
   const host =
-    options.host || env.PUBLIC_ENTROLYTICS_HOST || env.VITE_ENTROLYTICS_HOST || DEFAULT_HOST;
+    options.host ??
+    readEnvString(env.PUBLIC_ENTROLYTICS_HOST) ??
+    readEnvString(env.VITE_ENTROLYTICS_HOST) ??
+    DEFAULT_HOST;
 
   if (!websiteId) {
     if (env.DEV) {
