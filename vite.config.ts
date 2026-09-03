@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite-plus';
+import { defineConfig } from "vite-plus";
 
 export default defineConfig({
   pack: {
     entry: {
-      index: 'src/index.ts',
-      client: 'src/client.ts',
+      index: "src/index.ts",
+      client: "src/client.ts",
     },
-    format: ['esm'],
+    format: ["esm"],
     fixedExtension: false,
     dts: true,
     clean: true,
@@ -14,7 +14,7 @@ export default defineConfig({
     treeshake: true,
     minify: false,
     deps: {
-      neverBundle: ['astro'],
+      neverBundle: ["astro"],
     },
   },
   run: {
@@ -24,7 +24,7 @@ export default defineConfig({
     },
   },
   staged: {
-    '*.{ts,tsx,js,jsx,mjs,cjs,json,md,yml,yaml}': 'vp check --fix',
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,md,yml,yaml}": "vp check --fix",
   },
   lint: {
     options: {

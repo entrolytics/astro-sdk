@@ -1,6 +1,6 @@
 {
   "name": "@entrolytics/astro-sdk",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Astro SDK for Entrolytics - First-party growth analytics for the edge",
   "keywords": [
     "analytics",
@@ -54,18 +54,19 @@
     "lint:check": "vp lint . && vp fmt --check .",
     "lint:fix-unsafe": "vp lint -f stylish --import-plugin --type-aware --type-check --fix --fix-suggestions --fix-dangerously src/",
     "prepublishOnly": "vp run build",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@entrolytics/shared": "^2.4.0"
+    "@entrolytics/shared": "^2.4.2"
   },
   "devDependencies": {
-    "astro": "^6.1.1",
-    "typescript": "^6.0.2",
-    "vite-plus": "latest"
+    "astro": "^7.2.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vite-plus": "^0.2.8"
   },
   "peerDependencies": {
-    "astro": ">=5.17.2"
+    "astro": ">=6.4.2"
   },
   "peerDependenciesMeta": {
     "web-vitals": {
@@ -73,16 +74,10 @@
     }
   },
   "optionalDependencies": {
-    "web-vitals": "^5.2.0"
+    "web-vitals": "^6.1.0"
   },
   "engines": {
-    "node": ">=24.x"
+    "node": ">=24.19.0"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    }
-  }
+  "packageManager": "pnpm@11.21.0"
 }

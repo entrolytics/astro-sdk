@@ -3,8 +3,8 @@
 
 [![npm](https://img.shields.io/npm/v/@entrolytics/astro-sdk.svg?logo=npm)](https://www.npmjs.com/package/@entrolytics/astro-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg?logo=typescript\&logoColor=white)](https://www.typescriptlang.org/)
-[![Astro](https://img.shields.io/badge/Astro-5+-BC52EE.svg?logo=astro\&logoColor=white)](https://astro.build/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Astro](https://img.shields.io/badge/Astro-5+-BC52EE.svg?logo=astro&logoColor=white)](https://astro.build/)
 
 </div>
 
@@ -87,8 +87,8 @@ pnpm add @entrolytics/astro-sdk
 
 ```ts
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import entrolytics from '@entrolytics/astro-sdk';
+import { defineConfig } from "astro/config";
+import entrolytics from "@entrolytics/astro-sdk";
 
 export default defineConfig({
   integrations: [
@@ -119,10 +119,10 @@ integrations: [entrolytics()]; // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
 ```ts
 entrolytics({
   // Required: Your Entrolytics website ID
-  websiteId: 'your-website-id',
+  websiteId: "your-website-id",
 
   // Optional: Custom host (for self-hosted instances)
-  host: 'https://entrolytics.click',
+  host: "https://entrolytics.click",
 
   // Optional: Auto-track page views (default: true)
   autoTrack: true,
@@ -137,71 +137,13 @@ entrolytics({
   respectDnt: false,
 
   // Optional: Cross-domain tracking
-  domains: ['example.com', 'blog.example.com'],
+  domains: ["example.com", "blog.example.com"],
 });
 ```
 
 ## Runtime Configuration
 
-Entrolytics supports two collection runtimes with different performance characteristics:
-
-### Edge Runtime (Default)
-
-The edge runtime uses `/script-edge.js` for sub-50ms global latency:
-
-```ts
-entrolytics({
-  websiteId: 'your-website-id',
-  useEdgeRuntime: true, // Default
-});
-```
-
-**Benefits:**
-
-- Sub-50ms response times globally
-- Optimal for high-traffic sites
-- Best user experience
-
-**Limitations:**
-
-- Basic geo data (country-level)
-- No ClickHouse export
-
-### Node.js Runtime
-
-The Node.js runtime uses `/script.js` with advanced capabilities:
-
-```ts
-entrolytics({
-  websiteId: 'your-website-id',
-  useEdgeRuntime: false, // Use Node.js runtime
-});
-```
-
-**Benefits:**
-
-- ClickHouse data export support
-- MaxMind GeoIP (city-level accuracy)
-- Advanced analytics features
-
-**Latency:** 50-150ms (regional)
-
-### When to Use Each Runtime
-
-**Use Edge Runtime (default) when:**
-
-- You prioritize speed (<50ms response times)
-- You have high request volume
-- Country-level geo data is sufficient
-
-**Use Node.js Runtime when:**
-
-- You need ClickHouse export for data warehousing
-- You require city-level geo accuracy
-- Self-hosted Astro deployments without edge support
-- Advanced analytics workflows
-
-See the [Routing documentation](https://entrolytics.click/docs/concepts/routing) for more details.
+The integration loads the canonical `/script.js` tracker from the configured host.
 
 ## Manual Event Tracking
 
@@ -254,10 +196,10 @@ The integration automatically works with Astro's View Transitions. Page views ar
 Full TypeScript support included:
 
 ```ts
-import type { EntrolyticsOptions } from '@entrolytics/astro';
+import type { EntrolyticsOptions } from "@entrolytics/astro";
 
 const options: EntrolyticsOptions = {
-  websiteId: 'your-id',
+  websiteId: "your-id",
   trackOutboundLinks: true,
 };
 ```

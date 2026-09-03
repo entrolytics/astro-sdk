@@ -1,5 +1,5 @@
-import { API_ROUTES } from '@entrolytics/shared';
-import type { FormEventType, NavigationType, VitalRating, VitalType } from '@entrolytics/shared';
+import { API_ROUTES } from "@entrolytics/shared";
+import type { FormEventType, NavigationType, VitalRating, VitalType } from "@entrolytics/shared";
 
 /**
  * Client-side tracking functions for Astro components
@@ -72,7 +72,7 @@ declare global {
 }
 
 function waitForTracker(callback: () => void): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   const tryExecute = () => {
     if (window.entrolytics) {
@@ -86,7 +86,7 @@ function waitForTracker(callback: () => void): void {
 }
 
 function getConfig(): { websiteId: string; host: string } | null {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
   return window.__entrolytics_config || null;
 }
 
@@ -112,7 +112,7 @@ export function trackEvent(eventName: string, eventData?: EventData): void {
 export function trackRevenue(
   eventName: string,
   revenue: number,
-  currency = 'USD',
+  currency = "USD",
   data?: EventData,
 ): void {
   waitForTracker(() => {
@@ -130,7 +130,7 @@ export function trackRevenue(
  */
 export function trackOutboundLink(url: string, data?: EventData): void {
   waitForTracker(() => {
-    window.entrolytics?.track('outbound-link-click', {
+    window.entrolytics?.track("outbound-link-click", {
       ...data,
       url,
     });
@@ -188,11 +188,11 @@ export function trackPageView(url?: string, referrer?: string): void {
  * ```
  */
 export async function trackVital(data: WebVitalData): Promise<void> {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   const config = getConfig();
   if (!config) {
-    console.warn('[Entrolytics] Config not found. Ensure integration is properly configured.');
+    console.warn("[Entrolytics] Config not found. Ensure integration is properly configured.");
     return;
   }
 
@@ -211,18 +211,18 @@ export async function trackVital(data: WebVitalData): Promise<void> {
 
   try {
     await fetch(`${config.host}${API_ROUTES.collectVitals}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
       keepalive: true,
     });
   } catch (err) {
-    console.error('[Entrolytics] Failed to track vital:', err);
+    console.error("[Entrolytics] Failed to track vital:", err);
   }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -238,14 +238,14 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  * ```
  */
 export async function initWebVitals(): Promise<void> {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   try {
-    const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import('web-vitals/attribution');
+    const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import("web-vitals/attribution");
 
-    onLCP(m =>
+    onLCP((m) =>
       trackVital({
-        metric: 'LCP',
+        metric: "LCP",
         value: m.value,
         rating: m.rating,
         delta: m.delta,
@@ -255,9 +255,9 @@ export async function initWebVitals(): Promise<void> {
       }),
     );
 
-    onINP(m =>
+    onINP((m) =>
       trackVital({
-        metric: 'INP',
+        metric: "INP",
         value: m.value,
         rating: m.rating,
         delta: m.delta,
@@ -267,9 +267,9 @@ export async function initWebVitals(): Promise<void> {
       }),
     );
 
-    onCLS(m =>
+    onCLS((m) =>
       trackVital({
-        metric: 'CLS',
+        metric: "CLS",
         value: m.value,
         rating: m.rating,
         delta: m.delta,
@@ -279,9 +279,9 @@ export async function initWebVitals(): Promise<void> {
       }),
     );
 
-    onFCP(m =>
+    onFCP((m) =>
       trackVital({
-        metric: 'FCP',
+        metric: "FCP",
         value: m.value,
         rating: m.rating,
         delta: m.delta,
@@ -291,9 +291,9 @@ export async function initWebVitals(): Promise<void> {
       }),
     );
 
-    onTTFB(m =>
+    onTTFB((m) =>
       trackVital({
-        metric: 'TTFB',
+        metric: "TTFB",
         value: m.value,
         rating: m.rating,
         delta: m.delta,
@@ -303,7 +303,7 @@ export async function initWebVitals(): Promise<void> {
       }),
     );
   } catch {
-    console.debug('[Entrolytics] web-vitals not installed. Use trackVital() for manual tracking.');
+    console.debug("[Entrolytics] web-vitals not installed. Use trackVital() for manual tracking.");
   }
 }
 
@@ -326,11 +326,11 @@ export async function initWebVitals(): Promise<void> {
  * ```
  */
 export async function trackFormEvent(data: FormEventData): Promise<void> {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
 
   const config = getConfig();
   if (!config) {
-    console.warn('[Entrolytics] Config not found. Ensure integration is properly configured.');
+    console.warn("[Entrolytics] Config not found. Ensure integration is properly configured.");
     return;
   }
 
@@ -351,13 +351,13 @@ export async function trackFormEvent(data: FormEventData): Promise<void> {
 
   try {
     await fetch(`${config.host}${API_ROUTES.collectForms}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
       keepalive: true,
     });
   } catch (err) {
-    console.error('[Entrolytics] Failed to track form event:', err);
+    console.error("[Entrolytics] Failed to track form event:", err);
   }
 }
 
@@ -379,17 +379,17 @@ export function createFormTracker(formId: string, formName?: string) {
   return {
     trackStart: () => {
       startTime = Date.now();
-      void trackFormEvent({ eventType: 'start', formId, formName });
+      void trackFormEvent({ eventType: "start", formId, formName });
     },
 
     trackFieldFocus: (fieldName: string, fieldType?: string, fieldIndex?: number) => {
       if (!startTime) {
         startTime = Date.now();
-        void trackFormEvent({ eventType: 'start', formId, formName });
+        void trackFormEvent({ eventType: "start", formId, formName });
       }
       fieldStartTimes.set(fieldName, Date.now());
       void trackFormEvent({
-        eventType: 'field_focus',
+        eventType: "field_focus",
         formId,
         formName,
         fieldName,
@@ -402,7 +402,7 @@ export function createFormTracker(formId: string, formName?: string) {
     trackFieldBlur: (fieldName: string, fieldType?: string, fieldIndex?: number) => {
       const fieldStart = fieldStartTimes.get(fieldName);
       void trackFormEvent({
-        eventType: 'field_blur',
+        eventType: "field_blur",
         formId,
         formName,
         fieldName,
@@ -420,7 +420,7 @@ export function createFormTracker(formId: string, formName?: string) {
       fieldIndex?: number,
     ) => {
       void trackFormEvent({
-        eventType: 'field_error',
+        eventType: "field_error",
         formId,
         formName,
         fieldName,
@@ -433,7 +433,7 @@ export function createFormTracker(formId: string, formName?: string) {
 
     trackSubmit: (success: boolean) => {
       void trackFormEvent({
-        eventType: 'submit',
+        eventType: "submit",
         formId,
         formName,
         success,
@@ -445,7 +445,7 @@ export function createFormTracker(formId: string, formName?: string) {
 
     trackAbandon: () => {
       void trackFormEvent({
-        eventType: 'abandon',
+        eventType: "abandon",
         formId,
         formName,
         timeSinceStart: startTime ? Date.now() - startTime : undefined,
@@ -455,8 +455,8 @@ export function createFormTracker(formId: string, formName?: string) {
 }
 
 // For inline script usage - attach to window
-if (typeof window !== 'undefined') {
-  (window as Window & { entrolyticsClient?: typeof import('./client') }).entrolyticsClient = {
+if (typeof window !== "undefined") {
+  (window as Window & { entrolyticsClient?: typeof import("./client") }).entrolyticsClient = {
     trackEvent,
     trackRevenue,
     trackOutboundLink,
