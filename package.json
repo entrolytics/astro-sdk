@@ -46,7 +46,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vp pack",
+    "build": "vp pack && tsc --emitDeclarationOnly --noEmit false",
     "check": "vp check",
     "dev": "vp pack --watch",
     "format": "vp fmt --write .",
@@ -62,8 +62,8 @@
   "devDependencies": {
     "astro": "^7.3.1",
     "typescript": "next",
-    "vite": "^8.2.2",
-    "vite-plus": "^0.3.1"
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "astro": ">=6.4.2"
