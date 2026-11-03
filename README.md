@@ -87,8 +87,8 @@ pnpm add @entrolytics/astro-sdk
 
 ```ts
 // astro.config.mjs
-import { defineConfig } from "astro/config";
-import entrolytics from "@entrolytics/astro-sdk";
+import { defineConfig } from 'astro/config';
+import entrolytics from '@entrolytics/astro-sdk';
 
 export default defineConfig({
   integrations: [
@@ -101,7 +101,7 @@ Add to your `.env` file:
 
 ```bash
 PUBLIC_ENTROLYTICS_WEBSITE_ID=your-website-id
-PUBLIC_ENTROLYTICS_HOST=https://entrolytics.click
+PUBLIC_ENTROLYTICS_HOST=https://entrolytics.dev
 ```
 
 That's it! The integration automatically injects the tracking script and handles View Transitions.
@@ -119,10 +119,10 @@ integrations: [entrolytics()]; // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
 ```ts
 entrolytics({
   // Required: Your Entrolytics website ID
-  websiteId: "your-website-id",
+  websiteId: 'your-website-id',
 
   // Optional: Custom host (for self-hosted instances)
-  host: "https://entrolytics.click",
+  host: 'https://entrolytics.dev',
 
   // Optional: Auto-track page views (default: true)
   autoTrack: true,
@@ -137,7 +137,7 @@ entrolytics({
   respectDnt: false,
 
   // Optional: Cross-domain tracking
-  domains: ["example.com", "blog.example.com"],
+  domains: ['example.com', 'blog.example.com'],
 });
 ```
 
@@ -196,10 +196,10 @@ The integration automatically works with Astro's View Transitions. Page views ar
 Full TypeScript support included:
 
 ```ts
-import type { EntrolyticsOptions } from "@entrolytics/astro";
+import type { EntrolyticsOptions } from '@entrolytics/astro';
 
 const options: EntrolyticsOptions = {
-  websiteId: "your-id",
+  websiteId: 'your-id',
   trackOutboundLinks: true,
 };
 ```

@@ -1,6 +1,6 @@
-import type { AstroIntegration } from "astro";
+import type { AstroIntegration } from 'astro';
 
-const DEFAULT_HOST = "https://api.entrolytics.click";
+const DEFAULT_HOST = 'https://api.entrolytics.dev';
 
 export interface EntrolyticsOptions {
   /**
@@ -10,7 +10,7 @@ export interface EntrolyticsOptions {
 
   /**
    * Entrolytics host URL (for self-hosted instances)
-   * @default 'https://api.entrolytics.click'
+   * @default 'https://api.entrolytics.dev'
    */
   host?: string;
 
@@ -81,9 +81,9 @@ function generateScriptTag(options: EntrolyticsOptions): string {
     excludeHash = false,
   } = options;
 
-  const scriptUrl = `${host.replace(/\/$/, "")}/script.js`;
+  const scriptUrl = `${host.replace(/\/$/, '')}/script.js`;
 
-  const attributes: string[] = [`src="${scriptUrl}"`, `data-website-id="${websiteId}"`, "defer"];
+  const attributes: string[] = [`src="${scriptUrl}"`, `data-website-id="${websiteId}"`, 'defer'];
 
   if (!autoTrack) {
     attributes.push('data-auto-track="false"');
@@ -102,7 +102,7 @@ function generateScriptTag(options: EntrolyticsOptions): string {
   }
 
   if (domains && domains.length > 0) {
-    attributes.push(`data-domains="${domains.join(",")}"`);
+    attributes.push(`data-domains="${domains.join(',')}"`);
   }
 
   if (tag) {
@@ -117,11 +117,11 @@ function generateScriptTag(options: EntrolyticsOptions): string {
     attributes.push('data-exclude-hash="true"');
   }
 
-  return `<script ${attributes.join(" ")}></script>`;
+  return `<script ${attributes.join(' ')}></script>`;
 }
 
 function readEnvString(value: unknown): string | undefined {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
+  return typeof value === 'string' && value.length > 0 ? value : undefined;
 }
 
 /**
@@ -173,10 +173,10 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
   if (!websiteId) {
     if (env.DEV) {
       console.warn(
-        "[@entrolytics/astro] Missing websiteId. Add PUBLIC_ENTROLYTICS_WEBSITE_ID to your .env file.",
+        '[@entrolytics/astro] Missing websiteId. Add PUBLIC_ENTROLYTICS_WEBSITE_ID to your .env file.',
       );
     }
-    throw new Error("[@entrolytics/astro] websiteId is required");
+    throw new Error('[@entrolytics/astro] websiteId is required');
   }
 
   const finalOptions: EntrolyticsOptions = {
@@ -194,9 +194,9 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
   };
 
   return {
-    name: "@entrolytics/astro",
+    name: '@entrolytics/astro',
     hooks: {
-      "astro:config:setup": ({ injectScript }) => {
+      'astro:config:setup': ({ injectScript }) => {
         const scriptTag = generateScriptTag(finalOptions);
 
         // Inject config for Phase 2 features (Web Vitals, Forms)
@@ -204,18 +204,18 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
           <script>
             window.__entrolytics_config = {
               websiteId: "${websiteId}",
-              host: "${host.replace(/\/$/, "")}"
+              host: "${host.replace(/\/$/, '')}"
             };
           </script>
         `;
 
         // Inject config first, then main script
-        injectScript("head-inline", configScript);
-        injectScript("head-inline", scriptTag);
+        injectScript('head-inline', configScript);
+        injectScript('head-inline', scriptTag);
 
         // Handle View Transitions - re-track page on navigation
         injectScript(
-          "page",
+          'page',
           `
           document.addEventListener('astro:page-load', () => {
             if (typeof window.entrolytics !== 'undefined' && window.entrolytics.track) {
