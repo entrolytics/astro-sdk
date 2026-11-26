@@ -5,8 +5,13 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+## [3.0.2] - 2026-11-26
+
 ### Changed
 
 - Consumes `@entrolytics/shared` 3.2.1.
 - Built and tested against Astro 7.4; dependencies updated to their latest releases and the
   toolchain moved to tsdown, the oxc tools and pnpm 12.23.
+
+[Unreleased]: https://github.com/entrolytics/astro-sdk/compare/v3.0.2...HEAD
+[3.0.2]: https://github.com/entrolytics/astro-sdk/releases/tag/v3.0.2
