@@ -5,6 +5,10 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Changed
+
+- Built and released with pnpm 12.24.0. No code changes.
+
 ## [3.0.2] - 2026-11-26
 
 ### Changed
