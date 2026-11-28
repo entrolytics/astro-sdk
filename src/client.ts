@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@entrolytics/shared';
-import type { FormEventType, NavigationType, VitalRating, VitalType } from '@entrolytics/shared';
+import type { FormEventType } from '@entrolytics/shared';
 
 /**
  * Client-side tracking functions for Astro components
@@ -18,24 +18,6 @@ import type { FormEventType, NavigationType, VitalRating, VitalType } from '@ent
 
 export interface EventData {
   [key: string]: string | number | boolean | EventData | string[] | number[] | EventData[];
-}
-
-// ============================================================================
-// PHASE 2: Web Vitals Types
-// ============================================================================
-
-export type WebVitalMetric = VitalType;
-export type WebVitalRating = VitalRating;
-export type { NavigationType };
-
-export interface WebVitalData {
-  metric: WebVitalMetric;
-  value: number;
-  rating: WebVitalRating;
-  delta?: number;
-  id?: string;
-  navigationType?: NavigationType;
-  attribution?: Record<string, unknown>;
 }
 
 // ============================================================================
@@ -166,145 +148,6 @@ export function trackPageView(url?: string, referrer?: string): void {
     if (referrer) payload.referrer = referrer;
     window.entrolytics?.track(payload);
   });
-}
-
-// ============================================================================
-// PHASE 2: Web Vitals Tracking
-// ============================================================================
-
-/**
- * Track a Web Vital metric
- *
- * @example
- * ```ts
- * import { onLCP, onINP, onCLS } from 'web-vitals';
- * import { trackVital } from '@entrolytics/astro/client';
- *
- * onLCP((metric) => trackVital({
- *   metric: 'LCP',
- *   value: metric.value,
- *   rating: metric.rating
- * }));
- * ```
- */
-export async function trackVital(data: WebVitalData): Promise<void> {
-  if (typeof window === 'undefined') return;
-
-  const config = getConfig();
-  if (!config) {
-    console.warn('[Entrolytics] Config not found. Ensure integration is properly configured.');
-    return;
-  }
-
-  const payload = {
-    websiteId: config.websiteId,
-    metricName: data.metric,
-    metricValue: data.value,
-    rating: data.rating,
-    delta: data.delta,
-    id: data.id,
-    navigationType: data.navigationType,
-    attribution: data.attribution,
-    url: window.location.href,
-    path: window.location.pathname,
-  };
-
-  try {
-    await fetch(`${config.host}${API_ROUTES.collectVitals}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    });
-  } catch (err) {
-    console.error('[Entrolytics] Failed to track vital:', err);
-  }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-/**
- * Initialize automatic Web Vitals tracking
- * Call this in your client-side script to auto-track all Core Web Vitals
- *
- * @example
- * ```astro
- * <script>
- *   import { initWebVitals } from '@entrolytics/astro/client';
- *   initWebVitals();
- * </script>
- * ```
- */
-export async function initWebVitals(): Promise<void> {
-  if (typeof window === 'undefined') return;
-
-  try {
-    const { onCLS, onINP, onLCP, onFCP, onTTFB } = await import('web-vitals/attribution');
-
-    onLCP(m =>
-      trackVital({
-        metric: 'LCP',
-        value: m.value,
-        rating: m.rating,
-        delta: m.delta,
-        id: m.id,
-        navigationType: m.navigationType as NavigationType,
-        attribution: isRecord(m.attribution) ? m.attribution : undefined,
-      }),
-    );
-
-    onINP(m =>
-      trackVital({
-        metric: 'INP',
-        value: m.value,
-        rating: m.rating,
-        delta: m.delta,
-        id: m.id,
-        navigationType: m.navigationType as NavigationType,
-        attribution: isRecord(m.attribution) ? m.attribution : undefined,
-      }),
-    );
-
-    onCLS(m =>
-      trackVital({
-        metric: 'CLS',
-        value: m.value,
-        rating: m.rating,
-        delta: m.delta,
-        id: m.id,
-        navigationType: m.navigationType as NavigationType,
-        attribution: isRecord(m.attribution) ? m.attribution : undefined,
-      }),
-    );
-
-    onFCP(m =>
-      trackVital({
-        metric: 'FCP',
-        value: m.value,
-        rating: m.rating,
-        delta: m.delta,
-        id: m.id,
-        navigationType: m.navigationType as NavigationType,
-        attribution: isRecord(m.attribution) ? m.attribution : undefined,
-      }),
-    );
-
-    onTTFB(m =>
-      trackVital({
-        metric: 'TTFB',
-        value: m.value,
-        rating: m.rating,
-        delta: m.delta,
-        id: m.id,
-        navigationType: m.navigationType as NavigationType,
-        attribution: isRecord(m.attribution) ? m.attribution : undefined,
-      }),
-    );
-  } catch {
-    console.debug('[Entrolytics] web-vitals not installed. Use trackVital() for manual tracking.');
-  }
 }
 
 // ============================================================================
@@ -464,8 +307,6 @@ if (typeof window !== 'undefined') {
     identifyUser,
     trackPageView,
     // Phase 2
-    trackVital,
-    initWebVitals,
     trackFormEvent,
     createFormTracker,
   };

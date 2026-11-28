@@ -65,7 +65,7 @@
 <td align="center" width="25%">
 <img src="https://api.iconify.design/lucide:settings.svg?color=%236366f1" width="48"><br>
 <strong>3. Configure</strong><br>
-Set Website ID in <code>.env</code>
+Set Website ID and client key in <code>.env</code>
 </td>
 <td align="center" width="25%">
 <img src="https://api.iconify.design/lucide:bar-chart-3.svg?color=%236366f1" width="48"><br>
@@ -101,8 +101,12 @@ Add to your `.env` file:
 
 ```bash
 PUBLIC_ENTROLYTICS_WEBSITE_ID=your-website-id
+PUBLIC_ENTROLYTICS_CLIENT_KEY=your-public-client-key
 PUBLIC_ENTROLYTICS_HOST=https://entrolytics.dev
 ```
+
+Both the website ID and the client key are required: the tracker script sends nothing without the
+client key.
 
 That's it! The integration automatically injects the tracking script and handles View Transitions.
 
@@ -111,7 +115,7 @@ That's it! The integration automatically injects the tracking script and handles
 ### Zero-Config (Recommended)
 
 ```ts
-integrations: [entrolytics()]; // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
+integrations: [entrolytics()]; // Reads PUBLIC_ENTROLYTICS_WEBSITE_ID and PUBLIC_ENTROLYTICS_CLIENT_KEY
 ```
 
 ### Explicit Configuration
@@ -120,6 +124,9 @@ integrations: [entrolytics()]; // Reads from PUBLIC_ENTROLYTICS_WEBSITE_ID
 entrolytics({
   // Required: Your Entrolytics website ID
   websiteId: 'your-website-id',
+
+  // Required: Your website's public client key
+  clientKey: 'your-public-client-key',
 
   // Optional: Custom host (for self-hosted instances)
   host: 'https://entrolytics.dev',
@@ -144,6 +151,11 @@ entrolytics({
 ## Runtime Configuration
 
 The integration loads the canonical `/script.js` tracker from the configured host.
+
+## Web Vitals
+
+The tracker script reports Core Web Vitals (LCP, INP, CLS, FCP, TTFB) automatically when
+`autoTrack` is on. There is nothing to call.
 
 ## Manual Event Tracking
 
@@ -200,6 +212,7 @@ import type { EntrolyticsOptions } from '@entrolytics/astro';
 
 const options: EntrolyticsOptions = {
   websiteId: 'your-id',
+  clientKey: 'your-public-client-key',
   trackOutboundLinks: true,
 };
 ```

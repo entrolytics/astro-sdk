@@ -204,10 +204,6 @@ importers:
       typescript:
         specifier: next
         version: 7.1.0-dev.20261126.1
-    optionalDependencies:
-      web-vitals:
-        specifier: ^6.2.3
-        version: 6.2.3
 
 packages:
 
@@ -2002,9 +1998,6 @@ packages:
       vite:
         optional: true
 
-  web-vitals@6.2.3:
-    resolution: {integrity: sha512-Dmy+vdO1UPMqXiAtZSNayhl4f794Bxfd94W4HIj2HlYtczEQfEOon969memlcpcHrTuOKLa5baFjX7WbgmOq+A==}
-
   xxhash-wasm@1.1.0:
     resolution: {integrity: sha512-147y/6YNh+tlp6nd/2pWq38i9h6mz/EuQ6njIrmW8D1BS5nCqs0P6DG+m6zTGnNz5I+uhZ0SHxBs9BsPrwcKDA==}
 
@@ -3537,9 +3530,6 @@ snapshots:
   vitefu@1.1.4(vite@8.4.0(yaml@2.9.1)):
     optionalDependencies:
       vite: 8.4.0(yaml@2.9.1)
-
-  web-vitals@6.2.3:
-    optional: true
 
   xxhash-wasm@1.1.0: {}
 

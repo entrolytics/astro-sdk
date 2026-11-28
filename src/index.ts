@@ -9,6 +9,11 @@ export interface EntrolyticsOptions {
   websiteId: string;
 
   /**
+   * Your website's public client key; the tracker script sends nothing without it
+   */
+  clientKey: string;
+
+  /**
    * Entrolytics host URL (for self-hosted instances)
    * @default 'https://api.entrolytics.dev'
    */
@@ -70,6 +75,7 @@ export interface EntrolyticsOptions {
 function generateScriptTag(options: EntrolyticsOptions): string {
   const {
     websiteId,
+    clientKey,
     host = DEFAULT_HOST,
     autoTrack = true,
     trackOutboundLinks = true,
@@ -83,7 +89,12 @@ function generateScriptTag(options: EntrolyticsOptions): string {
 
   const scriptUrl = `${host.replace(/\/$/, '')}/script.js`;
 
-  const attributes: string[] = [`src="${scriptUrl}"`, `data-website-id="${websiteId}"`, 'defer'];
+  const attributes: string[] = [
+    `src="${scriptUrl}"`,
+    `data-website-id="${websiteId}"`,
+    `data-client-key="${clientKey}"`,
+    'defer',
+  ];
 
   if (!autoTrack) {
     attributes.push('data-auto-track="false"');
@@ -146,6 +157,7 @@ function readEnvString(value: unknown): string | undefined {
  *   integrations: [
  *     entrolytics({
  *       websiteId: 'your-website-id',
+ *       clientKey: 'your-public-client-key',
  *     }),
  *   ],
  * });
@@ -179,8 +191,23 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
     throw new Error('[@entrolytics/astro] websiteId is required');
   }
 
+  const clientKey =
+    options.clientKey ??
+    readEnvString(env.PUBLIC_ENTROLYTICS_CLIENT_KEY) ??
+    readEnvString(env.VITE_ENTROLYTICS_CLIENT_KEY);
+
+  if (!clientKey) {
+    if (env.DEV) {
+      console.warn(
+        '[@entrolytics/astro] Missing clientKey. Add PUBLIC_ENTROLYTICS_CLIENT_KEY to your .env file.',
+      );
+    }
+    throw new Error('[@entrolytics/astro] clientKey is required');
+  }
+
   const finalOptions: EntrolyticsOptions = {
     websiteId, // Required - guaranteed to exist from validation above
+    clientKey,
     host,
     autoTrack: options.autoTrack,
     trackOutboundLinks: options.trackOutboundLinks,
@@ -199,7 +226,7 @@ export default function entrolytics(options: Partial<EntrolyticsOptions> = {}): 
       'astro:config:setup': ({ injectScript }) => {
         const scriptTag = generateScriptTag(finalOptions);
 
-        // Inject config for Phase 2 features (Web Vitals, Forms)
+        // Inject config for Phase 2 features (Forms)
         const configScript = `
           <script>
             window.__entrolytics_config = {
